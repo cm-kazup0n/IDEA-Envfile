@@ -1,170 +1,8 @@
-# IntelliJ Platform Plugin Template
-
-[![official JetBrains project](https://jb.gg/badges/official.svg)][jb:confluence-on-gh]
-[![Twitter Follow](https://img.shields.io/twitter/follow/JBPlatform?style=flat)][jb:twitter]
-[![Build](https://github.com/JetBrains/intellij-platform-plugin-template/workflows/Build/badge.svg)][gh:build]
-[![Slack](https://img.shields.io/badge/Slack-%23intellij--platform--plugin--template-blue)][jb:slack]
-
-> **TL;DR:** Click the <kbd>Use this template</kbd> button and clone it in IntelliJ IDEA.
+# IDEA Envfile plugin
 
 <!-- Plugin description -->
-**IntelliJ Platform Plugin Template** is a repository that provides a pure boilerplate template to make it easier to create a new plugin project (check the [Creating a repository from a template][gh:template] article).
-
-The main goal of this template is to speed up the setup phase of plugin development for both new and experienced developers by preconfiguring the project scaffold and CI, linking to the proper documentation pages, and keeping everything organized.
-
-[gh:template]: https://help.github.com/en/enterprise/2.20/user/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
+With this plugin you can run your java code with environment variables from `.env` file in project root. 
 <!-- Plugin description end -->
-
-If you're still not quite sure what this is all about, read our introduction: [What is the IntelliJ Platform?][docs:intro]
-
-> **TIP**: Click the <kbd>Watch</kbd> button on the top to be notified about releases containing new features and fixes.
-
-
-### Table of contents
-
-In this README, we will highlight the following elements of template-project creation:
-
-- [Getting started](#getting-started)
-- [Gradle configuration](#gradle-configuration)
-- [Plugin template structure](#plugin-template-structure)
-    - [Dependency on the Kotlin standard library](#dependency-on-the-kotlin-standard-library)
-- [Plugin configuration file](#plugin-configuration-file)
-- [Sample code](#sample-code):
-    - listeners – project and dynamic plugin lifecycle
-    - services – project-related and application-related services
-    - actions – basic action with shortcut binding
-- [Predefined Run/Debug configurations](#predefined-rundebug-configurations)
-- [Continuous integration](#continuous-integration) based on GitHub Actions
-    - [Dependencies management](#dependencies-management) with dependabot
-    - [Changelog maintenance](#changelog-maintenance) with the Gradle Changelog Plugin
-    - [Release flow](#release-flow) using GitHub Releases
-    - [Publishing the plugin](#publishing-the-plugin) with the Gradle IntelliJ Plugin
-- [FAQ](#faq)
-- [Useful links](#useful-links)
-
-
-## Getting started
-
-Before we dive into plugin development and everything related to it, it's worth mentioning the benefits of using GitHub Templates. By creating a new project using the current template, you start with no history and no reference to this repository. This allows you to create a new repository easily without having to copy and paste previous content, clone repositories, or clear the history manually.
-
-All you have to do is click the <kbd>Use this template</kbd> button.
-
-![Use this template][file:use-this-template.png]
-
-After using the template to create your blank project, the [Template Cleanup][file:template_cleanup.yml] workflow will be triggered to override or remove any template-specific configurations, such as the plugin name, current changelog, etc. Once this is complete, the project is ready to be cloned to your local environment and opened with [IntelliJ IDEA][jb:download-ij].
-
-For the last step, you have to manually review the configuration variables described in the [gradle.properties][file:gradle.properties] file and *optionally* move sources from the *com.github.username.repository* package to the one that works best for you. Then you can get to work implementing your ideas.
-
-> **TIP:** To use Java in your plugin, create the `/src/main/java` directory.
-
-
-## Gradle configuration
-
-The recommended method for plugin development involves using the [Gradle][gradle] setup with the [gradle-intellij-plugin][gh:gradle-intellij-plugin] installed. The gradle-intellij-plugin makes it possible to run the IDE with your plugin and publish your plugin to the Marketplace Repository.
-
-A project built using the IntelliJ Platform Plugin Template includes a Gradle configuration that's already been set up. Feel free to read through the [Using Gradle][docs:using-gradle] articles to better understand your build and learn how to customize it.
-
-The most significant parts of the current configuration are:
-- Configuration written with [Gradle Kotlin DSL][gradle-kotlin-dsl].
-- Support for Kotlin and Java implementation.
-- Integration with the [gradle-changelog-plugin][gh:gradle-changelog-plugin], which automatically patches the change notes and description based on the `CHANGELOG.md` and `README.md` files.
-- Integration with the [gradle-intellij-plugin][gh:gradle-intellij-plugin] for smoother development.
-- Code linting with [detekt][detekt].
-- [Plugin publishing][docs:publishing] using the token.
-
-The project-specific configuration file [gradle.properties][file:gradle.properties] contains:
-
-| Property name             | Description                                                                                               |
-| ------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `pluginGroup`             | Package name - after *using* the template, this will be set to `com.github.username.repo`.                |
-| `pluginName`              | Plugin name displayed in the Marketplace and the Plugins Repository.                                      |
-| `pluginVersion`           | The current version of the plugin.                                                                        |
-| `pluginSinceBuild`        | The `since-build` attribute of the <idea-version> tag.                                                    |
-| `pluginUntilBuild`        | The `until-build` attribute of the <idea-version> tag.                                                    |
-| `platformType`            | The type of IDE distribution.                                                                             |
-| `platformVersion`         | The version of the IntelliJ Platform IDE that will be used to build the plugin.                           |
-| `platformDownloadSources` | IDE sources downloaded while initializing the Gradle build.                                               |
-| `platformPlugins`         | Comma-separated list of dependencies to the bundled IDE plugins and plugins from the Plugin Repositories. |
-
-The properties listed define the plugin itself or configure the [gradle-intellij-plugin][gh:gradle-intellij-plugin] – check its documentation for more details.
-
-For more details regarding Kotlin integration, please see: [Kotlin for Plugin Developers][kotlin-for-plugin-developers] section in the IntelliJ Platform Plugin SDK documentation.
-
-
-## Plugin template structure
-
-A generated IntelliJ Platform Plugin Template repository contains the following content structure:
-
-```
-.
-├── .run                    Predefined Run/Debug Configurations
-├── CHANGELOG.md            Full change history.
-├── LICENSE                 License, MIT by default
-├── README.md               README
-├── build/                  Output build directory
-├── build.gradle.kts        Gradle configuration
-├── detekt-config.yml       Detekt configuration
-├── gradle
-│   └── wrapper/            Gradle Wrapper
-├── gradle.properties       Gradle configuration properties
-├── gradlew                 *nix Gradle Wrapper binary
-├── gradlew.bat             Windows Gradle Wrapper binary
-└── src                     Plugin sources
-    └── main
-        ├── kotlin/         Kotlin source files
-        └── resources/      Resources - plugin.xml, icons, messages
-```
-
-In addition to the configuration files, the most crucial part is the `src` directory, which contains our implementation and the manifest for our plugin – [plugin.xml][file:plugin.xml].
-
-> **TIP:** To use Java in your plugin, create the `/src/main/java` directory.
-
-
-## Plugin configuration file
-
-The plugin configuration file is a [plugin.xml][file:plugin.xml] file located in the `src/main/resources/META-INF` directory. It provides general information about the plugin, its dependencies, extensions, and listeners.
-
-```xml
-<idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
-    <name>Template</name>
-    <vendor>JetBrains</vendor>
-    <depends>com.intellij.modules.platform</depends>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="..."/>
-        <projectService serviceImplementation="..."/>
-    </extensions>
-
-    <projectListeners>
-        <listener class="..." topic="..."/>
-    </projectListeners>
-</idea-plugin>
-```
-
-You can read more about this file in the [Plugin Configuration File][docs:plugin.xml] section of our documentation.
-
-
-## Sample code
-
-The prepared template provides as little code as possible because it is impossible for a general scaffold to fulfill all the specific requirements for all types of plugins (language support, build tools, VCS related tools). The template contains only the following files:
-
-```
-.
-├── MyBundle.kt                         Bundle class providing access to the resources messages
-├── listeners
-│   └── MyProjectManagerListener.kt     Project Manager listener - handles project lifecycle
-└── services
-    ├── MyApplicationService.kt         Application-level service available for all projects
-    └── MyProjectService.kt             Project level service
-```
-
-These files are located in `src/main/kotlin`. This location indicates the language being used. So if you decide to use Java instead, sources should be located in the `src/main/java` directory.
-
-To start with the actual implementation, you may check our [IntelliJ Platform SDK DevGuide][docs], which contains an introduction to the essential areas of the plugin development together with dedicated tutorials.
-
-For those, who value example codes the most, there are also available [IntelliJ SDK Code Samples][gh:code-samples] and [IntelliJ Platform Explorer][jb:ipe] – a search tool for browsing Extension Points inside existing implementations of open-source IntelliJ Platform plugins.
-
 
 ## Predefined Run/Debug configurations
 
@@ -173,7 +11,7 @@ Within the default project structure, there is a `.run` directory provided conta
 ![Run/Debug configurations][file:run-debug-configurations.png]
 
 | Configuration name | Description                                                                                                                                                            |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Run Plugin         | Runs [`:runIde`][gh:gradle-intellij-plugin-running-dsl] Gradle IntelliJ Plugin task. Use the *Debug* icon for plugin debugging.                                        |
 | Run Tests          | Runs [`:check`][gradle-lifecycle-tasks] Gradle task that invokes `:test` and `detekt`/`ktlint` code inspections.                                                       |
 | Run Verifications  | Runs [`:runPluginVerifier`][gh:gradle-intellij-plugin-verifier-dsl] Gradle IntelliJ Plugin task to check the plugin compatibility against the specified IntelliJ IDEs. |
@@ -212,10 +50,8 @@ All the workflow files have accurate documentation, so it's a good idea to take 
 
 ### Dependencies management
 
-This Template project depends on Gradle plugins and external libraries – and during the development, you will add more of them.
-
+This project depends on Gradle plugins and external libraries – and during the development, you will add more of them.
 Keeping the project in good shape and having all the dependencies up-to-date requires time and effort, but it is possible to automate that process using [dependabot][gh:dependabot].
-
 Dependabot is a bot provided by GitHub for checking the build configuration files and reviewing any outdated or insecure dependencies of yours – in case if any update is available, it creates a new pull request providing [the proper change][gh:dependabot-pr].
 
 > **Note:** Dependabot doesn't yet support checking of the Gradle Wrapper. Check the [Gradle Releases][gradle-releases] page and update it with:
