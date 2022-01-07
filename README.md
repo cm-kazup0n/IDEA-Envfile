@@ -2,6 +2,7 @@
 
 <!-- Plugin description -->
 With this plugin you can run your java code with environment variables from `.env` file in project root.
+Repository https://github.com/cm-kazup0n/IDEA-Envfile
 <!-- Plugin description end -->
 
 ## How to use
@@ -17,7 +18,7 @@ With this plugin you can run your java code with environment variables from `.en
 ```bash
 > ./gradlew buildPlugin
 > ls build/distributions/
-idea_envfile_plugin-X.X.X.zip
+idea_envfile-X.X.X.zip
 ```
 
 ### Usage
