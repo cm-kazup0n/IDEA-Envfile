@@ -14,3 +14,9 @@
 
 - refactor: Add how to use notes to README
 - refactor: Add `Found .env file` log
+
+## [0.1.1]
+
+### Changed
+
+- fix: build number range does not match latest IU release
