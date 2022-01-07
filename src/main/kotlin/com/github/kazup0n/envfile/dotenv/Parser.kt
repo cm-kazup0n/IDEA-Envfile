@@ -14,11 +14,14 @@ import com.copperleaf.kudzu.parser.maybe.MaybeParser
 import com.copperleaf.kudzu.parser.sequence.SequenceParser
 import com.copperleaf.kudzu.parser.text.IdentifierTokenParser
 import com.copperleaf.kudzu.parser.text.OptionalWhitespaceParser
+import com.intellij.openapi.diagnostic.logger
 import java.io.File
 
 @OptIn(ExperimentalStdlibApi::class)
 object Parser {
-    val lines: ManyParser<ChoiceNode>
+    private val log = logger<Parser>()
+
+    private val lines: ManyParser<ChoiceNode>
 
     init {
         val newLine = MaybeParser(ManyParser(CharInParser('\n')))
@@ -46,7 +49,7 @@ object Parser {
             )
         ) {
             val (k, _, _, _, v) = it.children
-            Pair(k.text, v.text)
+            k.text to v.text
         }
         val entry = ExactChoiceParser(comment, kv)
         lines = ManyParser(entry)
@@ -54,11 +57,23 @@ object Parser {
 
     fun parse(envFile: File): Map<String, String> {
         val ctx = ParserContext.fromString(envFile.readText(Charsets.UTF_8))
-        val result = lines.parse(ctx)
-        return result.first.nodeList
+        return parse(ctx)
+    }
+
+    internal fun parse(ctx: ParserContext): Map<String, String> {
+        val parsed = lines.parse(ctx)
+        val entries = parsed.first.nodeList
             .filter { it.node.astNodeName == "ValueNode" }
-            .associate {
+            .map {
                 (it.children[0] as ValueNode<Pair<String, String>>).value
             }
+        val result = mutableMapOf<String, String>()
+        entries.forEach {
+            val prev = result.put(it.first, it.second)
+            if (prev != null) {
+                log.warn("Key(${it.first}) is duplicated; previous value(${it.second}) was discarded")
+            }
+        }
+        return result
     }
 }
