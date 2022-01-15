@@ -7,8 +7,19 @@ typealias Value = String
 typealias Comment = String
 
 sealed class ParseError {
-    data class InvalidLine(val line: String) : ParseError()
-    data class DuplicatedKey(val key: String, val prevValue: String) : ParseError()
+    abstract fun show(): String
+    data class InvalidLine(val line: String) : ParseError() {
+        override fun show(): String {
+            return "InvalidLine(line=$line)"
+        }
+
+    }
+
+    data class DuplicatedKey(val key: String, val prevValue: String) : ParseError() {
+        override fun show(): String {
+            return "DuplicatedKey(key=$key,prevValue=$prevValue"
+        }
+    }
 }
 
 class ParseResult(val entries: Map<Key, Value>, val comments: List<Comment>, val errors: List<ParseError>) {

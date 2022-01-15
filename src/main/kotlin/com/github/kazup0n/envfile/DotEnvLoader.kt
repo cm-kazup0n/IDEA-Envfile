@@ -1,10 +1,11 @@
 package com.github.kazup0n.envfile
 
-import com.github.kazup0n.envfile.dotenv.Parser
+import com.github.kazup0n.envfile.dotenv.ParseResult
+import com.github.kazup0n.envfile.dotenv.RegexParser
 import java.nio.file.Path
 
 object DotEnvLoader {
-    fun asMap(path: Path): Map<String, String> {
-        return Parser.parse(path.toFile())
+    fun tryLoad(path: Path): ParseResult {
+        return RegexParser.parse(path.toFile())
     }
 }
