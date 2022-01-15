@@ -3,7 +3,6 @@ package com.github.kazup0n.envfile.dotenv
 import com.github.kazup0n.envfile.types.Either
 import java.io.File
 
-
 object RegexParser {
 
     private val entry = Regex(pattern = "([^=]*)\\s*=\\s*(.*)")
@@ -27,7 +26,5 @@ object RegexParser {
         } else {
             Either.Left(ParseError.InvalidLine(s))
         }
-
     }
-
 }

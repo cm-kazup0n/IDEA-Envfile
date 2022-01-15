@@ -12,7 +12,6 @@ sealed class ParseError {
         override fun show(): String {
             return "InvalidLine(line=$line)"
         }
-
     }
 
     data class DuplicatedKey(val key: String, val prevValue: String) : ParseError() {
@@ -22,36 +21,45 @@ sealed class ParseError {
     }
 }
 
+fun <A> Either<ParseError, Entry>.fold(
+    onEntry: (e: Entry.EnvEntry) -> A,
+    onComment: (c: Entry.CommentEntry) -> A,
+    onError: (e: ParseError) -> A
+): A {
+    return when (this) {
+        is Either.Right -> when (this.get) {
+            is Entry.CommentEntry -> onComment(this.get)
+            is Entry.EnvEntry -> onEntry(this.get)
+        }
+        is Either.Left -> onError(this.get)
+    }
+}
+
 class ParseResult(val entries: Map<Key, Value>, val comments: List<Comment>, val errors: List<ParseError>) {
     companion object {
         fun build(parsed: List<Either<ParseError, Entry>>): ParseResult {
             val entries = mutableMapOf<Key, Value>()
             val comments = mutableListOf<Comment>()
             val errors = mutableListOf<ParseError>()
-
             parsed.forEach {
-                when (it) {
-                    is Either.Right -> when (it.get) {
-                        is Entry.CommentEntry -> comments.add(it.get.comment)
-                        is Entry.EnvEntry -> {
-                            val prev = entries.put(it.get.key, it.get.value)
-                            if (prev != null) {
-                                errors.add(ParseError.DuplicatedKey(it.get.key, prev))
-                            }
+                it.fold(
+                    onEntry = { e ->
+                        val prev = entries.put(e.key, e.value)
+                        if (prev != null) {
+                            errors.add(ParseError.DuplicatedKey(e.key, prev))
                         }
-                    }
-                    is Either.Left -> errors.add(it.get)
-                }
+                    },
+                    onComment = { c -> comments.add(c.comment) },
+                    onError = { err -> errors.add(err) }
+                )
             }
             return ParseResult(entries, comments, errors)
         }
     }
 }
 
-
 sealed class Entry {
     data class EnvEntry(val key: Key, val value: Value) : Entry()
 
     data class CommentEntry(val comment: Comment) : Entry()
 }
-
