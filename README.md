@@ -18,7 +18,7 @@ Repository https://github.com/cm-kazup0n/IDEA-Envfile
 ```bash
 > ./gradlew buildPlugin
 > ls build/distributions/
-idea_envfile-X.X.X.zip
+IdeaEnvFile-X.X.X.zip
 ```
 
 ### Usage
@@ -65,11 +65,6 @@ In the `.github/workflows` directory, you can find definitions for the following
     - Publishes the plugin to the Marketplace using the provided `PUBLISH_TOKEN`.
     - Sets publish channel depending on the plugin version, i.e. `1.0.0-beta` -> `beta` channel.
     - Patches the Changelog and commits.
-- [Template Cleanup](.github/workflows/template-cleanup.yml)
-    - Triggered once on the `push` event when a new template-based repository has been created.
-    - Overrides the scaffold with files from the `.github/template-cleanup` directory.
-    - Overrides JetBrains-specific sentences or package names with ones specific to the target repository.
-    - Removes redundant files.
 
 All the workflow files have accurate documentation, so it's a good idea to take a look through their sources.
 
@@ -191,8 +186,6 @@ will not be triggered.
 [file:run-debug-configurations.png]: .github/readme/run-debug-configurations.png
 
 [file:settings-secrets.png]: .github/readme/settings-secrets.png
-
-[file:template_cleanup.yml]: ./.github/workflows/template-cleanup.yml
 
 [gh:actions]: https://help.github.com/en/actions
 

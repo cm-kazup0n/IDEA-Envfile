@@ -19,4 +19,4 @@
 
 ### Changed
 
-- fix: build number range does not match latest IU release
+- fix: build number range does not match the latest IU release

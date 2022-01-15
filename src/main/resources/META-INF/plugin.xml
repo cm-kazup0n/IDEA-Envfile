@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.kazup0n.idea_envfile_plugin</id>
-    <name>Idea_envfile</name>
+    <name>IdeaEnvFile</name>
     <vendor>Kazuhiro Sasaki</vendor>
 
     <!-- Product and plugin compatibility requirements -->
@@ -9,7 +9,7 @@
     <depends>com.intellij.modules.java</depends>
     <extensions defaultExtensionNs="com.intellij">
         <runConfigurationExtension
-                implementation="com.github.kazup0n.envfile.AddDotEnvVariablesConfigurationExtension"></runConfigurationExtension>
+                implementation="com.github.kazup0n.envfile.AddDotEnvVariablesConfigurationExtension"/>
         <notificationGroup id="envfile_plugin" displayType="BALLOON"/>
     </extensions>
 </idea-plugin>
