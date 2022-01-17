@@ -1,8 +1,20 @@
+
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 # Changelog
 
 ## [Unreleased]
+
+## [0.1.2]
+
+### Added
+
+- Implement balloon notification.
+
+### Changed
+
+- refactor: clean up for lints
+
 
 ## [0.1.0]
 
