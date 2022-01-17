@@ -16,6 +16,12 @@
 - refactor: clean up for lints
 
 
+## [0.1.1]
+
+### Changed
+
+- fix: build number range does not match the latest IU release
+
 ## [0.1.0]
 
 ### Added
@@ -26,9 +32,3 @@
 
 - refactor: Add how to use notes to README
 - refactor: Add `Found .env file` log
-
-## [0.1.1]
-
-### Changed
-
-- fix: build number range does not match the latest IU release
