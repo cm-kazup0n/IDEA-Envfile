@@ -59,12 +59,6 @@ changelog {
 detekt {
     config = files("./detekt-config.yml")
     buildUponDefaultConfig = true
-
-    reports {
-        html.enabled = false
-        xml.enabled = false
-        txt.enabled = false
-    }
 }
 
 tasks {
@@ -79,6 +73,11 @@ tasks {
 
     withType<Detekt> {
         jvmTarget = "1.8"
+        reports {
+            html.required.set(false)
+            xml.required.set(false)
+            txt.required.set(false)
+        }
     }
 
     patchPluginXml {
