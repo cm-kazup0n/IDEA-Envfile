@@ -18,7 +18,7 @@ plugins {
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
     // gradle version plugin - read more: https://github.com/ben-manes/gradle-versions-plugin
-    id("com.github.ben-manes.versions")  version "0.41.0"
+    id("com.github.ben-manes.versions") version "0.41.0"
 }
 
 group = properties("pluginGroup")
