@@ -27,11 +27,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+    implementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test"))
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1")
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("io.github.copper-leaf:kudzu-core:2.6.0")
 }
 
 // Configure gradle-intellij-plugin plugin.
