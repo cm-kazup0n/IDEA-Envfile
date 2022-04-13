@@ -10,13 +10,15 @@ plugins {
     // Kotlin support
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
     // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-    id("org.jetbrains.intellij") version "1.3.0"
+    id("org.jetbrains.intellij") version "1.3.1"
     // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
     id("org.jetbrains.changelog") version "1.3.1"
     // detekt linter - read more: https://detekt.github.io/detekt/gradle.html
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    // gradle version plugin - read more: https://github.com/ben-manes/gradle-versions-plugin
+    id("com.github.ben-manes.versions") version "0.41.0"
 }
 
 group = properties("pluginGroup")
@@ -27,11 +29,9 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
-    testImplementation(kotlin("test"))
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1")
     implementation(kotlin("stdlib-jdk8"))
-    implementation("io.github.copper-leaf:kudzu-core:2.6.0")
+    testImplementation(kotlin("test"))
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -59,12 +59,6 @@ changelog {
 detekt {
     config = files("./detekt-config.yml")
     buildUponDefaultConfig = true
-
-    reports {
-        html.enabled = false
-        xml.enabled = false
-        txt.enabled = false
-    }
 }
 
 tasks {
@@ -79,6 +73,11 @@ tasks {
 
     withType<Detekt> {
         jvmTarget = "1.8"
+        reports {
+            html.required.set(false)
+            xml.required.set(false)
+            txt.required.set(false)
+        }
     }
 
     patchPluginXml {
