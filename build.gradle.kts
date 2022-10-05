@@ -16,7 +16,7 @@ plugins {
     // detekt linter - read more: https://detekt.github.io/detekt/gradle.html
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     // gradle version plugin - read more: https://github.com/ben-manes/gradle-versions-plugin
     id("com.github.ben-manes.versions") version "0.41.0"
 }
