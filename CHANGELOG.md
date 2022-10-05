@@ -5,6 +5,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add 2022.2 support. 
+
 ## [0.1.3]
 
 ### Added
