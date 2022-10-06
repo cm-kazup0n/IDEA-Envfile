@@ -7,7 +7,15 @@
 
 ### Added
 
+## [0.1.4]
+
+### Added
+
 - Add 2022.2 support. 
+
+### Changed
+
+- bump build dependencies version
 
 ## [0.1.3]
 
