@@ -140,7 +140,7 @@ jobs:
 
       # Upload plugin artifact to make it available in the next jobs
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: plugin-artifact
           path: ./build/distributions/${{ steps.properties.outputs.artifact }}
@@ -238,7 +238,7 @@ jobs:
 
       # Download plugin artifact provided by the previous job
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: plugin-artifact
 
